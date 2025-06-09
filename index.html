@@ -12,29 +12,16 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      position: relative;
     }
-
-    .logo {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 120px;
-      height: auto;
-    }
-
     h1 {
       text-align: center;
       font-size: 1.5em;
-      margin-top: 100px;
     }
-
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
-
     input, select, button {
       width: 100%;
       padding: 10px;
@@ -43,7 +30,6 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
-
     button {
       background: #007bff;
       color: white;
@@ -51,11 +37,9 @@
       margin-top: 20px;
       cursor: pointer;
     }
-
     button:hover {
       background: #0056b3;
     }
-
     #resultado {
       margin-top: 20px;
       font-size: 1.2em;
@@ -66,8 +50,6 @@
   </style>
 </head>
 <body>
-  <img src="logo-chroma-preto.png" alt="Logotipo Chroma" class="logo">
-
   <h1>Calculadora de Adesivos</h1>
 
   <label for="largura">Largura (cm):</label>
@@ -83,4 +65,77 @@
   <select id="tipo">
     <option value="branco_sem">Adesivo branco (brilho ou fosco) sem recorte - R$90,00</option>
     <option value="branco_com">Adesivo branco (brilho ou fosco) com recorte - R$99,00</option>
-    <option value="transp_sem">Adesivo transparente (brilho) sem recorte - R$99,00</o_
+    <option value="transp_sem">Adesivo transparente (brilho) sem recorte - R$99,00</option>
+    <option value="transp_com">Adesivo transparente (brilho) com recorte - R$109,00</option>
+    <option value="perfurado">Adesivo perfurado (perfurite) sem recorte - R$120,00</option>
+    <option value="holografico">Adesivo holográfico com recorte - R$150,00</option>
+    <option value="laminado_sem">Adesivo laminado sem recorte - R$155,00</option>
+    <option value="laminado_com">Adesivo laminado com recorte - R$170,00</option>
+    <option value="chapa_ps">Chapa de PS 2mm adesivada - R$250,00</option>
+    <option value="colorido_mascara">Adesivo colorido recortado com máscara - R$200,00</option>
+  </select>
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div id="resultado">Valor total: R$ --</div>
+
+  <script>
+    function calcular() {
+      const largura = parseFloat(document.getElementById('largura').value) || 0;
+      const altura = parseFloat(document.getElementById('altura').value) || 0;
+      const quantidade = parseInt(document.getElementById('quantidade').value) || 1;
+      const tipo = document.getElementById('tipo').value;
+
+      const larguraTotal = (largura + 0.3) * quantidade;
+      const alturaTotal = altura + 0.3;
+      const areaTotal = (larguraTotal * alturaTotal) / 10000;
+
+      let precoM2 = 0;
+      let minimo = 30;
+
+      switch (tipo) {
+        case "branco_sem":
+          precoM2 = 90;
+          break;
+        case "branco_com":
+          precoM2 = 99;
+          break;
+        case "transp_sem":
+          precoM2 = 99;
+          break;
+        case "transp_com":
+          precoM2 = 109;
+          break;
+        case "perfurado":
+          precoM2 = 120;
+          break;
+        case "holografico":
+          precoM2 = 150;
+          minimo = 50;
+          break;
+        case "laminado_sem":
+          precoM2 = 155;
+          minimo = 50;
+          break;
+        case "laminado_com":
+          precoM2 = 170;
+          minimo = 50;
+          break;
+        case "chapa_ps":
+          precoM2 = 250;
+          minimo = 35;
+          break;
+        case "colorido_mascara":
+          precoM2 = 200;
+          minimo = 35;
+          break;
+      }
+
+      let total = areaTotal * precoM2;
+      if (total < minimo) total = minimo;
+
+      document.getElementById('resultado').innerText = 'Valor total: R$ ' + total.toFixed(2);
+    }
+  </script>
+</body>
+</html>
